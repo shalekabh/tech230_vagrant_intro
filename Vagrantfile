@@ -11,6 +11,6 @@ Vagrant.configure("2") do |config|
     #sudo systemctl start nginx
   #SHELL
 
-  config.vm.provision "shell", path: "provision.sh"
+  config.vm.provision "shell", path: "provisions.sh"
 
 end
