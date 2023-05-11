@@ -83,3 +83,30 @@ Finally to check you're connected go to the IP:
 [code]192.168.10.100
 And you should see this:
 ![Alt text](2023-05-11%20(2).png)
+
+### Automation of loading nginx, updating and upgrading
+
+To create the automation for updating and upgrading linux and installing and starting nginx:
+- Create a file called provisions.sh
+- In this file make the first like the shebang of what shell youre using:
+[code]#!/bin/bash
+- Then write all the following code
+[code]sudo apt-get update -y
+[code]sudo apt-get upgrade -y
+[code]sudo apt-get install -y nginx
+[code]sudo systemctl enable nginx
+[code]sudo systemctl start nginx
+- The -y in the code will answer 'yes' to prompted questions
+
+Once you have set that, you need to go back to your Vagrantfile and add another line of code under these 2 lines:
+[code]config.vm.box = "ubuntu/xenial64"
+[code]config.vm.network "private_network", ip:"192.168.10.100"
+Then add this line of code under the first 2:
+[code]config.vm.provision "shell", path: "provision.sh"
+
+"shell" - is a built-in provisioner in Vagrant that allows you to run shell scripts on the virtual machine.
+"path"<filename> - is the path of the file you want to access.
+
+This should have worked successfully, now run the command:
+[code]vagrant up
+Now everything should update, uprgrade, install and run automatically! 
